@@ -1,0 +1,67 @@
+<div class="sidebar">
+  <h2>Practitioner Map</h2>
+  <p class="subtitle">View and track practitioners across territories</p>
+
+  <!-- Territory Colors Toggle -->
+  <div class="toggle-wrap">
+    <label class="toggle-label">
+      <span>Territory Colors</span>
+      <span class="toggle-switch" [class.on]="showTerritoryColors" (click)="onToggleTerritoryColors()">
+        <span class="toggle-knob"></span>
+      </span>
+    </label>
+  </div>
+
+  <!-- Team Filter -->
+  <div class="dropdown-wrap">
+    <label for="team-select">Filter by Team</label>
+    <div class="team-buttons">
+      <button class="team-btn"
+              [class.active]="selectedTeam === ''"
+              (click)="selectedTeam = ''; onTeamChange()">
+        All
+      </button>
+      <button *ngFor="let team of teams"
+              class="team-btn"
+              [class.active]="selectedTeam === team"
+              [style.--team-color]="teamColors[team]"
+              (click)="selectedTeam = team; onTeamChange()">
+        <span class="team-dot" [style.background]="teamColors[team]"></span>
+        {{ team }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Practitioner Dropdown (filtered by team) -->
+  <div class="dropdown-wrap">
+    <label for="practitioner-select">Select Practitioner</label>
+    <select id="practitioner-select"
+            [(ngModel)]="selectedPractitionerId"
+            (ngModelChange)="onPractitionerChange()">
+      <option value="">— All Practitioners —</option>
+      <option *ngFor="let p of filteredPractitioners$ | async" [value]="p.id">
+        {{ p.name }} ({{ p.team }})
+      </option>
+    </select>
+  </div>
+
+  <!-- Practitioner Detail Card -->
+  <app-practitioner-card
+    *ngIf="activePractitioner$ | async as practitioner"
+    [practitioner]="practitioner">
+  </app-practitioner-card>
+
+  <!-- Territory Info (shown on state click) -->
+  <app-territory-info
+    *ngIf="selectedTerritoryInfo$ | async as info"
+    [territory]="info.territory"
+    [stateName]="info.stateName">
+  </app-territory-info>
+
+  <!-- Practitioner Count -->
+  <div class="practitioner-count" *ngIf="filteredPractitioners$ | async as list">
+    <strong>{{ list.length }}</strong> practitioners
+    <span *ngIf="selectedTeam"> in team {{ selectedTeam }}</span>
+    <span *ngIf="!selectedTeam"> loaded</span>
+  </div>
+</div>

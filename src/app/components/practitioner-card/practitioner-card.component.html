@@ -1,0 +1,36 @@
+<div class="card">
+  <div class="card-header">
+    <div class="avatar">{{ initials }}</div>
+    <div>
+      <h3>{{ practitioner.name }}</h3>
+      <span class="badge">Active</span>
+    </div>
+  </div>
+  <div class="detail-row">
+    <span class="detail-label">Specialty</span>
+    <span class="detail-value">{{ practitioner.specialty }}</span>
+  </div>
+  <div class="detail-row">
+    <span class="detail-label">Phone</span>
+    <span class="detail-value">{{ practitioner.phone }}</span>
+  </div>
+  <div class="detail-row">
+    <span class="detail-label">Email</span>
+    <span class="detail-value">{{ practitioner.email }}</span>
+  </div>
+  <div class="detail-row">
+    <span class="detail-label">Address</span>
+    <span class="detail-value">{{ practitioner.address }}</span>
+  </div>
+  <div class="detail-row">
+    <span class="detail-label">Territory</span>
+    <span class="detail-value">{{ territoryName }}</span>
+  </div>
+  <div class="detail-row">
+    <span class="detail-label">Team</span>
+    <span class="detail-value">
+      <span class="team-indicator" [style.background]="teamColor"></span>
+      {{ practitioner.team }}
+    </span>
+  </div>
+</div>

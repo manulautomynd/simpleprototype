@@ -1,0 +1,16 @@
+/* ── Global Styles ── */
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #1a252f;
+  overflow: hidden;
+}
+
+/* Leaflet tooltip for practitioner markers */
+.practitioner-tooltip {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}

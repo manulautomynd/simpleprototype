@@ -1,0 +1,174 @@
+.sidebar {
+  width: 340px;
+  min-width: 340px;
+  background: #2c3e50;
+  color: white;
+  padding: 20px;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.25);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  height: 100vh;
+}
+
+h2 {
+  margin: 0 0 4px;
+  font-size: 1.3rem;
+  border-bottom: 2px solid #34495e;
+  padding-bottom: 10px;
+}
+
+.subtitle {
+  color: #95a5a6;
+  font-size: 0.85rem;
+  margin: 0 0 18px;
+}
+
+/* ── Toggle Switch ── */
+.toggle-wrap {
+  margin-bottom: 14px;
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #bdc3c7;
+  cursor: pointer;
+}
+
+.toggle-switch {
+  position: relative;
+  width: 40px;
+  height: 22px;
+  background: #4a6278;
+  border-radius: 11px;
+  transition: background 0.25s ease;
+  flex-shrink: 0;
+}
+
+.toggle-switch.on {
+  background: #2ecc71;
+}
+
+.toggle-knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.25s ease;
+}
+
+.toggle-switch.on .toggle-knob {
+  transform: translateX(18px);
+}
+
+/* ── Dropdown ── */
+.dropdown-wrap {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.dropdown-wrap label {
+  display: block;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #95a5a6;
+  margin-bottom: 6px;
+}
+
+select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #4a6278;
+  border-radius: 6px;
+  background: #34495e;
+  color: #ecf0f1;
+  font-size: 0.95rem;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2395a5a6' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+
+select:focus {
+  outline: none;
+  border-color: #2ecc71;
+}
+
+select option {
+  background: #34495e;
+  color: #ecf0f1;
+}
+
+/* ── Team Buttons ── */
+.team-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.team-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border: 1px solid #4a6278;
+  border-radius: 20px;
+  background: #34495e;
+  color: #bdc3c7;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.team-btn:hover {
+  background: #3d566e;
+  color: #ecf0f1;
+}
+
+.team-btn.active {
+  background: rgba(46, 204, 113, 0.15);
+  border-color: #2ecc71;
+  color: #2ecc71;
+  font-weight: 600;
+}
+
+.team-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── Practitioner Count ── */
+.practitioner-count {
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid #34495e;
+  font-size: 0.85rem;
+  color: #95a5a6;
+}
+
+.practitioner-count strong {
+  color: #2ecc71;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    min-width: unset;
+    height: auto;
+    max-height: 40vh;
+    padding: 14px;
+  }
+}

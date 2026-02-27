@@ -1,0 +1,20 @@
+<div class="info-panel">
+  <h3>{{ stateName }}</h3>
+  <span class="region-label" [style.color]="regionColor">{{ regionLabel }}</span>
+
+  <div class="zip-header">
+    <span>Zip Codes</span>
+    <span class="zip-badge">{{ zipCodes.length }}</span>
+  </div>
+
+  <ul class="zip-list" *ngIf="zipCodes.length > 0; else noZips">
+    <li *ngFor="let zip of zipCodes">{{ zip }}</li>
+  </ul>
+
+  <ng-template #noZips>
+    <ul class="zip-list">
+      <li *ngIf="territory">No zip codes listed.</li>
+      <li *ngIf="!territory">N/A</li>
+    </ul>
+  </ng-template>
+</div>
