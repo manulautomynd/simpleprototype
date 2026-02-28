@@ -27,4 +27,17 @@ export class PractitionerCardComponent {
   get teamColor(): string {
     return TEAM_COLORS[this.practitioner.team] || '#95a5a6';
   }
+
+  get statusColor(): string {
+    const colors: Record<string, string> = {
+      available: '#74b9ff',
+      busy: '#ff7675',
+      'on-visit': '#ffeaa7'
+    };
+    return colors[this.practitioner.status] || '#95a5a6';
+  }
+
+  get assignedPatientCount(): number {
+    return this.dataService.getPatientsForPractitioner(this.practitioner.id).length;
+  }
 }

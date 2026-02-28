@@ -9,15 +9,80 @@
   height: 100vh;
 }
 
-/* Legend styling (injected by Leaflet into global DOM) */
+/* ── Legend ── */
 :host ::ng-deep .legend {
-  background: white;
-  padding: 10px 14px;
-  border-radius: 6px;
-  color: #333;
-  line-height: 1.6;
-  font-size: 0.85rem;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  background: rgba(30, 42, 53, 0.95);
+  padding: 12px 16px;
+  border-radius: 8px;
+  color: #ecf0f1;
+  line-height: 1.5;
+  font-size: 0.78rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(4px);
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+:host ::ng-deep .legend strong {
+  display: block;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #95a5a6;
+  margin-bottom: 4px;
+}
+
+:host ::ng-deep .legend-section {
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+:host ::ng-deep .legend-section:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+:host ::ng-deep .legend-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 0;
+  color: #bdc3c7;
+  font-size: 0.76rem;
+}
+
+:host ::ng-deep .legend-circle {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+:host ::ng-deep .legend-diamond {
+  width: 9px;
+  height: 9px;
+  transform: rotate(45deg);
+  flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+:host ::ng-deep .legend-diamond-outline {
+  width: 9px;
+  height: 9px;
+  transform: rotate(45deg);
+  flex-shrink: 0;
+  background: transparent;
+  border: 2px dashed #95a5a6;
+}
+
+:host ::ng-deep .legend-square {
+  width: 12px;
+  height: 10px;
+  border-radius: 2px;
+  flex-shrink: 0;
+  opacity: 0.7;
 }
 
 :host ::ng-deep .legend i {
@@ -26,6 +91,122 @@
   float: left;
   margin-right: 8px;
   border-radius: 50%;
+}
+
+/* ── Patient markers ── */
+:host ::ng-deep .patient-marker-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent !important;
+  border: none !important;
+}
+
+:host ::ng-deep .patient-diamond {
+  transition: transform 0.15s ease;
+}
+
+:host ::ng-deep .patient-pulse .patient-diamond {
+  animation: patientPulse 2s ease-in-out infinite;
+}
+
+@keyframes patientPulse {
+  0%, 100% { box-shadow: 0 0 4px rgba(231, 76, 60, 0.4); }
+  50% { box-shadow: 0 0 12px rgba(231, 76, 60, 0.8); }
+}
+
+/* ── Patient popup ── */
+:host ::ng-deep .patient-popup-container .leaflet-popup-content-wrapper {
+  background: #1e2a35;
+  color: #ecf0f1;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  padding: 0;
+}
+
+:host ::ng-deep .patient-popup-container .leaflet-popup-tip {
+  background: #1e2a35;
+}
+
+:host ::ng-deep .patient-popup-container .leaflet-popup-content {
+  margin: 0;
+}
+
+:host ::ng-deep .patient-popup {
+  padding: 14px 16px;
+  font-size: 0.82rem;
+  min-width: 200px;
+}
+
+:host ::ng-deep .popup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  gap: 8px;
+}
+
+:host ::ng-deep .popup-header strong {
+  font-size: 0.92rem;
+}
+
+:host ::ng-deep .popup-acuity {
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+:host ::ng-deep .popup-row {
+  display: flex;
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  gap: 8px;
+}
+
+:host ::ng-deep .popup-row:last-child {
+  border-bottom: none;
+}
+
+:host ::ng-deep .popup-label {
+  color: #7f8c8d;
+  font-size: 0.76rem;
+  min-width: 65px;
+  flex-shrink: 0;
+}
+
+:host ::ng-deep .popup-value {
+  color: #ecf0f1;
+  font-size: 0.8rem;
+}
+
+:host ::ng-deep .popup-value.unassigned-val {
+  color: #e74c3c;
+  font-weight: 600;
+}
+
+:host ::ng-deep .popup-value.pref-tag {
+  background: rgba(155, 89, 182, 0.15);
+  color: #9b59b6;
+  padding: 1px 6px;
+  border-radius: 8px;
+  font-size: 0.72rem;
+}
+
+:host ::ng-deep .popup-value.status-scheduled { color: #3498db; }
+:host ::ng-deep .popup-value.status-in-progress { color: #f39c12; }
+:host ::ng-deep .popup-value.status-completed { color: #2ecc71; }
+:host ::ng-deep .popup-value.status-unassigned { color: #e74c3c; font-weight: 600; }
+
+/* ── Connection line tooltip ── */
+:host ::ng-deep .connection-tooltip {
+  background: rgba(30, 42, 53, 0.9) !important;
+  color: #ecf0f1 !important;
+  border: 1px solid #34495e !important;
+  border-radius: 6px !important;
+  font-size: 0.78rem !important;
+  padding: 4px 8px !important;
 }
 
 @media (max-width: 768px) {

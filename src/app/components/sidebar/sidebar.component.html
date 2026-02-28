@@ -1,40 +1,119 @@
 <div class="sidebar">
-  <h2>Practitioner Map</h2>
-  <p class="subtitle">View and track practitioners across territories</p>
-
-  <!-- Territory Colors Toggle -->
-  <div class="toggle-wrap">
-    <label class="toggle-label">
-      <span>Territory Colors</span>
-      <span class="toggle-switch" [class.on]="showTerritoryColors" (click)="onToggleTerritoryColors()">
-        <span class="toggle-knob"></span>
-      </span>
-    </label>
+  <!-- Header -->
+  <div class="sidebar-header">
+    <h2>Back Office Scheduling</h2>
+    <p class="subtitle">Map View — Staff &amp; Patient Overview</p>
   </div>
 
-  <!-- Team Filter -->
-  <div class="dropdown-wrap">
-    <label for="team-select">Filter by Team</label>
-    <div class="team-buttons">
-      <button class="team-btn"
-              [class.active]="selectedTeam === ''"
-              (click)="selectedTeam = ''; onTeamChange()">
-        All
-      </button>
-      <button *ngFor="let team of teams"
-              class="team-btn"
-              [class.active]="selectedTeam === team"
-              [style.--team-color]="teamColors[team]"
-              (click)="selectedTeam = team; onTeamChange()">
-        <span class="team-dot" [style.background]="teamColors[team]"></span>
-        {{ team }}
-      </button>
+  <!-- Stats Bar -->
+  <div class="stats-bar" *ngIf="stats$ | async as stats">
+    <div class="stat-card green">
+      <span class="stat-number">{{ stats.availablePractitioners }}</span>
+      <span class="stat-label">Available</span>
+    </div>
+    <div class="stat-card yellow">
+      <span class="stat-number">{{ stats.onVisitPractitioners }}</span>
+      <span class="stat-label">On Visit</span>
+    </div>
+    <div class="stat-card red">
+      <span class="stat-number">{{ stats.unassignedPatients }}</span>
+      <span class="stat-label">Unassigned</span>
+    </div>
+    <div class="stat-card orange">
+      <span class="stat-number">{{ stats.highAcuityPatients }}</span>
+      <span class="stat-label">High Acuity</span>
     </div>
   </div>
 
-  <!-- Practitioner Dropdown (filtered by team) -->
-  <div class="dropdown-wrap">
-    <label for="practitioner-select">Select Practitioner</label>
+  <!-- Filters -->
+  <div class="filter-section">
+    <!-- Territory Filter -->
+    <div class="filter-group">
+      <label class="filter-label">Territory</label>
+      <div class="filter-buttons">
+        <button class="filter-btn"
+                [class.active]="selectedTerritory === ''"
+                (click)="selectedTerritory = ''; onTerritoryChange()">All</button>
+        <button *ngFor="let t of territories$ | async"
+                class="filter-btn"
+                [class.active]="selectedTerritory === t.id"
+                [style.--filter-color]="t.color"
+                (click)="selectedTerritory = t.id; onTerritoryChange()">
+          <span class="filter-dot" [style.background]="t.color"></span>
+          {{ getShortTerritoryName(t.name) }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Team Filter -->
+    <div class="filter-group">
+      <label class="filter-label">Team</label>
+      <div class="filter-buttons">
+        <button class="filter-btn"
+                [class.active]="selectedTeam === ''"
+                (click)="selectedTeam = ''; onTeamChange()">All</button>
+        <button *ngFor="let team of teams"
+                class="filter-btn"
+                [class.active]="selectedTeam === team"
+                [style.--filter-color]="teamColors[team]"
+                (click)="selectedTeam = team; onTeamChange()">
+          <span class="filter-dot" [style.background]="teamColors[team]"></span>
+          {{ team }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Acuity Filter -->
+    <div class="filter-group">
+      <label class="filter-label">Patient Acuity</label>
+      <div class="filter-buttons">
+        <button class="filter-btn"
+                [class.active]="selectedAcuity === 0"
+                (click)="selectedAcuity = 0; onAcuityChange()">All</button>
+        <button class="filter-btn"
+                [class.active]="selectedAcuity === 1"
+                [style.--filter-color]="'#e74c3c'"
+                (click)="selectedAcuity = 1; onAcuityChange()">
+          <span class="filter-dot" style="background:#e74c3c"></span>
+          Cat 1
+        </button>
+        <button class="filter-btn"
+                [class.active]="selectedAcuity === 2"
+                [style.--filter-color]="'#f39c12'"
+                (click)="selectedAcuity = 2; onAcuityChange()">
+          <span class="filter-dot" style="background:#f39c12"></span>
+          Cat 2
+        </button>
+        <button class="filter-btn"
+                [class.active]="selectedAcuity === 3"
+                [style.--filter-color]="'#27ae60'"
+                (click)="selectedAcuity = 3; onAcuityChange()">
+          <span class="filter-dot" style="background:#27ae60"></span>
+          Cat 3
+        </button>
+      </div>
+    </div>
+
+    <!-- Toggles -->
+    <div class="toggle-row">
+      <label class="toggle-label">
+        <span>Territory Colors</span>
+        <span class="toggle-switch" [class.on]="showTerritoryColors" (click)="onToggleTerritoryColors()">
+          <span class="toggle-knob"></span>
+        </span>
+      </label>
+      <label class="toggle-label">
+        <span>Show Patients</span>
+        <span class="toggle-switch" [class.on]="showPatients" (click)="onTogglePatients()">
+          <span class="toggle-knob"></span>
+        </span>
+      </label>
+    </div>
+  </div>
+
+  <!-- Practitioner Dropdown -->
+  <div class="section">
+    <label for="practitioner-select" class="section-label">Select Practitioner</label>
     <select id="practitioner-select"
             [(ngModel)]="selectedPractitionerId"
             (ngModelChange)="onPractitionerChange()">
@@ -51,6 +130,45 @@
     [practitioner]="practitioner">
   </app-practitioner-card>
 
+  <!-- Patient List -->
+  <div class="section patients-section" *ngIf="filteredPatients$ | async as patients">
+    <div class="section-header">
+      <label class="section-label">Patients</label>
+      <span class="count-badge">{{ patients.length }}</span>
+    </div>
+    <div class="patient-list">
+      <div *ngFor="let patient of patients"
+           class="patient-row"
+           [class.active]="(activePatient$ | async)?.id === patient.id"
+           [class.unassigned]="patient.visitStatus === 'unassigned'"
+           (click)="onPatientClick(patient)">
+        <span class="acuity-indicator" [style.background]="getAcuityColor(patient.acuity)"></span>
+        <div class="patient-info">
+          <span class="patient-name">{{ patient.name }}</span>
+          <span class="patient-detail">
+            Cat {{ patient.acuity }} · {{ patient.condition }}
+          </span>
+        </div>
+        <div class="patient-tags">
+          <span *ngIf="patient.genderPreference !== 'none'" class="gender-tag"
+                [class.female]="patient.genderPreference === 'female-only'"
+                [class.male]="patient.genderPreference === 'male-only'">
+            {{ patient.genderPreference === 'female-only' ? '♀' : '♂' }}
+          </span>
+          <span class="visit-tag" [class]="patient.visitStatus">
+            {{ patient.visitStatus }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Patient Detail Card -->
+  <app-patient-card
+    *ngIf="activePatient$ | async as patient"
+    [patient]="patient">
+  </app-patient-card>
+
   <!-- Territory Info (shown on state click) -->
   <app-territory-info
     *ngIf="selectedTerritoryInfo$ | async as info"
@@ -58,10 +176,13 @@
     [stateName]="info.stateName">
   </app-territory-info>
 
-  <!-- Practitioner Count -->
-  <div class="practitioner-count" *ngIf="filteredPractitioners$ | async as list">
-    <strong>{{ list.length }}</strong> practitioners
-    <span *ngIf="selectedTeam"> in team {{ selectedTeam }}</span>
-    <span *ngIf="!selectedTeam"> loaded</span>
+  <!-- Footer -->
+  <div class="footer-count">
+    <span *ngIf="filteredPractitioners$ | async as pList">
+      <strong>{{ pList.length }}</strong> practitioners
+    </span>
+    <span *ngIf="filteredPatients$ | async as ptList">
+      · <strong>{{ ptList.length }}</strong> patients
+    </span>
   </div>
 </div>

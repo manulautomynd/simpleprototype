@@ -1,0 +1,45 @@
+<div class="card">
+  <div class="card-header">
+    <div class="avatar" [style.background]="acuityColor">{{ initials }}</div>
+    <div>
+      <h3>{{ patient.name }}</h3>
+      <span class="badge" [style.background]="acuityColor + '22'" [style.color]="acuityColor">
+        Cat {{ patient.acuity }} — {{ acuityLabel }}
+      </span>
+    </div>
+  </div>
+
+  <div class="detail-row">
+    <span class="detail-label">Condition</span>
+    <span class="detail-value">{{ patient.condition }}</span>
+  </div>
+  <div class="detail-row">
+    <span class="detail-label">Status</span>
+    <span class="detail-value">
+      <span class="status-indicator" [class]="patient.visitStatus"></span>
+      {{ patient.visitStatus }}
+    </span>
+  </div>
+  <div class="detail-row">
+    <span class="detail-label">Assigned</span>
+    <span class="detail-value" [class.unassigned-text]="!patient.assignedPractitioner">
+      {{ assignedPractitionerName }}
+    </span>
+  </div>
+  <div class="detail-row">
+    <span class="detail-label">Preference</span>
+    <span class="detail-value">{{ genderLabel }}</span>
+  </div>
+  <div class="detail-row">
+    <span class="detail-label">Phone</span>
+    <span class="detail-value">{{ patient.phone }}</span>
+  </div>
+  <div class="detail-row">
+    <span class="detail-label">Address</span>
+    <span class="detail-value">{{ patient.address }}</span>
+  </div>
+  <div class="detail-row">
+    <span class="detail-label">Territory</span>
+    <span class="detail-value">{{ territoryName }}</span>
+  </div>
+</div>

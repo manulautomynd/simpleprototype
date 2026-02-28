@@ -13,4 +13,45 @@ html, body {
 /* Leaflet tooltip for practitioner markers */
 .practitioner-tooltip {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: rgba(30, 42, 53, 0.92) !important;
+  color: #ecf0f1 !important;
+  border: 1px solid #34495e !important;
+  border-radius: 6px !important;
+  font-size: 0.78rem !important;
+  padding: 4px 10px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+.practitioner-tooltip::before {
+  border-top-color: rgba(30, 42, 53, 0.92) !important;
+}
+
+/* Patient tooltip */
+.patient-tooltip {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: rgba(30, 42, 53, 0.92) !important;
+  color: #ecf0f1 !important;
+  border: 1px solid #34495e !important;
+  border-radius: 6px !important;
+  font-size: 0.78rem !important;
+  padding: 4px 10px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #34495e;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4a6278;
 }
